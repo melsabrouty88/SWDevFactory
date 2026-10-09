@@ -54,7 +54,7 @@ Our ecosystem consists of specialized agents defined in agnostic Markdown format
 6. **SW Test Agent**: Develops high-level, black-box software test cases mapped directly back to the formalized requirements.
 
 ## Core Features
-- **MCP Integration**: A dedicated Model Context Protocol (MCP) server enables native interaction with GitHub (reading issues, writing PRs) and local CSV files.
+- **MCP Integration**: Relies on standardized remote Model Context Protocol (MCP) servers—like the official `@modelcontextprotocol/server-github`—to interact natively with GitHub (reading issues, writing PRs), avoiding the need to build custom integrations.
 - **CSV Data Store**: All requirements and traceability matrices are strictly documented, versioned, and stored in structured CSV formats.
 - **Traceability Engine**: Enforces strict bidirectional traceability linking Requirements ↔ Architecture ↔ Code ↔ Tests. 
 - **Dashboard Interface**: A visual UI to monitor agent execution states, configure scheduling for the Orchestrator, manually trigger ticket processing, view formalized requirements, and track the end-to-end traceability matrix.

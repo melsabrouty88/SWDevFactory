@@ -3,12 +3,11 @@
 This roadmap breaks down the development of the Multi-Agent Software Factory into 5 sequential phases.
 
 ## Phase 1: Core Framework & Triggers
-**Goal:** Establish the foundational Orchestrator (with prioritization), MCP server, CSV schemas, and manual trigger entry points.
+**Goal:** Establish the foundational Orchestrator (with prioritization), configure existing MCP servers (GitHub, CSV), define CSV schemas, and setup manual trigger entry points.
 
 **Engineering Tasks:**
-- Initialize the Model Context Protocol (MCP) server repository.
-- Implement the GitHub MCP tools: `read_issue`, `create_pull_request`, `update_issue`.
-- Implement the CSV MCP tools: `read_csv`, `append_csv_row`, `query_csv`.
+- Configure the remote GitHub MCP Server (`@modelcontextprotocol/server-github`) and document authentication (Personal Access Token).
+- Investigate and configure a CSV MCP server (or build a lightweight adapter if needed).
 - Define the standard CSV schemas for `requirements.csv` and `traceability_matrix.csv`.
 - Create the initial `orchestrator_agent.md` definition with ticket prioritization logic and delegation capabilities.
 - Build local CLI/API entry points to allow the IDE to manually trigger the Orchestrator for a specific ticket.
@@ -16,11 +15,10 @@ This roadmap breaks down the development of the Multi-Agent Software Factory int
 **Target File Structure:**
 ```text
 /
-├── mcp-server/
-│   ├── src/
-│   │   ├── github_tools.ts
-│   │   └── csv_tools.ts
-│   └── package.json
+├── config/
+│   ├── mcp_servers.json
+│   └── .env.example
+├── requirements.txt
 ├── data/
 │   ├── schemas/
 │   │   ├── requirements_schema.json

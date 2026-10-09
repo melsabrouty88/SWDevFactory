@@ -1,0 +1,8 @@
+# Python Dependencies for Multi-Agent Software Factory
+# Note: The remote GitHub MCP server runs via Node.js (npx). Ensure Node is installed on your system.
+
+# Environment variable management for loading GitHub Personal Access Tokens and other secrets
+python-dotenv>=1.0.0
+
+# Tools for CSV handling (to be used later alongside or as the CSV MCP server)
+pandas>=2.0.0
