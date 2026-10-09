@@ -1,0 +1,29 @@
+# Requirement Agent - Clarification Templates
+
+When the Requirement Agent identifies an ambiguity in a user ticket, it MUST use one of the following templates to request clarification. 
+
+## Template 1: Missing Acceptance Criteria (Assumption Provided)
+"The ticket mentions [Summary of Feature], but does not explicitly define [Missing Detail, e.g., error handling for X]. 
+
+I assume we should [State logical assumption/best practice]. 
+
+Does this assumption look correct, or would you prefer a different approach?"
+
+## Template 2: Out of Scope / Boundary Check
+"To implement [Feature], we will also need to modify [Adjacent System/Component], which is not mentioned in the ticket.
+
+(Recommended) I can include this modification as part of the requirement scope.
+Alternatively, we can create a separate ticket for it.
+
+How would you like to proceed?"
+
+## Template 3: Conflicting Information
+"There appears to be a conflict in the ticket requirements: 
+1. [Conflict Point A]
+2. [Conflict Point B]
+
+To resolve this, I recommend we proceed with [Recommended Resolution]. Please confirm if this is acceptable."
+
+---
+**Core Rule for Agent Execution:** 
+Never ask a completely open-ended question like "What should I do?". Always do the analytical heavy lifting and present a concrete recommendation or assumption for the user to easily approve or tweak.
