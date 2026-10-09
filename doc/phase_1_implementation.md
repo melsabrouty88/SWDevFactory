@@ -56,7 +56,7 @@ The Orchestrator acts as the "Manager" of the factory. It does not write code; i
     *   **Core Responsibilities (System Prompt Logic):**
         1.  **Prioritization Logic:** When triggered in `auto` mode, query open GitHub issues. Analyze labels (e.g., `bug`, `critical`), creation dates, and descriptions to determine the single most critical issue to tackle.
         2.  **Context Assembly:** Read the selected issue's full conversation history via GitHub MCP.
-        3.  **Delegation:** Formulate a structured prompt containing the issue context and invoke the `Requirement Agent` to begin Phase 2 workflow. Wait for successful requirement extraction before continuing.
+        3.  **Delegation & Feedback:** Formulate a structured prompt and invoke the `Requirement Agent`. Wait for the subagent's response. Commit status updates back into the GitHub ticket using `github_create_issue_comment`. Handle fallback to `logs/github_sync_errors.log` and retry if the GitHub communication fails.
 
 ---
 

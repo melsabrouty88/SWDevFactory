@@ -21,7 +21,7 @@ The Requirement Agent translates raw GitHub issue context into formal, actionabl
     *   `ask_question` / User prompt interface (to request clarifications).
 *   **Core Responsibilities (System Prompt Logic):**
     1.  **Ambiguity Detection:** Read the raw issue context passed by the Orchestrator. Identify missing acceptance criteria, edge cases, or ambiguous language.
-    2.  **Assumption Generation & User Approval:** If ambiguities exist, generate logical assumptions and proactively share them with the User. Wait for explicit approval or corrections before finalizing.
+    2.  **Assumption Generation & GitHub Sync:** If ambiguities exist, generate logical assumptions. Share these directly with the User by commenting on the GitHub ticket (via `github_create_issue_comment`). Wait for explicit approval on the ticket. Use local fallback logs and retries if GitHub communication fails.
     3.  **Formalization:** Break down the feature into atomic requirements.
     4.  **Data Persistence:** Use the CSV MCP tool to append new rows into `requirements.csv`, strictly adhering to the JSON schema defined in Phase 1 (generating unique `REQ-` IDs, setting Status to `Pending`, etc.).
 

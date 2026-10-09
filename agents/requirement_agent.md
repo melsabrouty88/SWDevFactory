@@ -16,9 +16,12 @@ When invoked, you will receive the full context of a GitHub Issue.
 ## 2. User Interaction & Assumption Generation
 *   If the issue is perfectly clear, proceed to formalization.
 *   If there are ambiguities or missing details, you MUST **generate logical assumptions** for the missing parts.
-*   Use the `ask_question` tool or output explicit text to interact with the User. 
+*   **Ticket Clarification**: Share clarification questions to the user directly **through the GitHub ticket** by committing a comment using the `github_create_issue_comment` MCP tool (this maintains a central discussion log on the issue).
 *   **Mandatory Template**: When asking for clarification, adhere to the structures defined in `prompts/clarification_templates.txt`. Do not ask open-ended questions without providing a recommended assumption first.
-*   Wait for the User's explicit approval or correction before proceeding.
+*   Wait for the User's explicit approval or correction on the ticket before proceeding.
+
+## 2.5 GitHub Communication Fallbacks
+*   If posting the clarification to GitHub fails, log the failure to `logs/github_sync_errors.log` and retry the operation. Do not lose the generated assumption.
 
 ## 3. Requirement Formalization
 Break down the validated issue into one or more atomic requirements. Each requirement must have:
