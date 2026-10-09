@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Traceability Matrix Schema",
+  "type": "object",
+  "properties": {
+    "req_id": {
+      "type": "string",
+      "description": "Foreign key to requirements.csv"
+    },
+    "architecture_doc_ref": {
+      "type": "string",
+      "description": "Link to the design section/diagram"
+    },
+    "source_code_files": {
+      "type": "string",
+      "description": "Comma-separated list of implemented files (e.g., src/auth.py)"
+    },
+    "unit_test_files": {
+      "type": "string",
+      "description": "Comma-separated list of unit tests (e.g., tests/test_auth.py)"
+    },
+    "sw_test_case_id": {
+      "type": "string",
+      "description": "Reference to the high-level black-box test ID"
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": ["Pass", "Fail", "Missing"],
+      "description": "Overall status of the requirement's implementation and tests"
+    }
+  },
+  "required": [
+    "req_id",
+    "verification_status"
+  ]
+}
