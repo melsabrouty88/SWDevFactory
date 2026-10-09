@@ -10,7 +10,11 @@ import argparse
 import os
 import sys
 import logging
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+    HAS_DOTENV = True
+except ImportError:
+    HAS_DOTENV = False
 
 # Configure structured logging to standard out for Dashboard consumption
 logging.basicConfig(
@@ -23,7 +27,10 @@ logger = logging.getLogger("OrchestratorTrigger")
 def load_environment():
     """Loads environment variables and verifies required secrets."""
     env_path = os.path.join(os.path.dirname(__file__), '../config/.env')
-    load_dotenv(dotenv_path=env_path)
+    if HAS_DOTENV:
+        load_dotenv(dotenv_path=env_path)
+    else:
+        logger.warning("python-dotenv not installed, skipping .env load.")
     
     # Check for GitHub PAT, critical for MCP server to function
     if not os.environ.get("GITHUB_PERSONAL_ACCESS_TOKEN"):
