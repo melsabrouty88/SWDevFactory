@@ -9,7 +9,7 @@ This roadmap breaks down the development of the Multi-Agent Software Factory int
 - Configure the remote GitHub MCP Server (`@modelcontextprotocol/server-github`) and document authentication (Personal Access Token).
 - Configure the remote Excel/CSV MCP Server (`@ishayoyo/excel-mcp`) for robust local CSV data management.
 - Define the standard CSV schemas for `requirements.csv` and `traceability_matrix.csv`.
-- Create the initial `orchestrator_agent.md` definition with ticket prioritization logic and delegation capabilities.
+- Create the initial `orchestrator_agent.md` definition with robust ticket prioritization, fallback mechanisms, structured execution logging (to avoid silent failures), and delegation capabilities.
 - Build local CLI/API entry points to allow the IDE to manually trigger the Orchestrator for a specific ticket.
 
 **Target File Structure:**
@@ -96,7 +96,7 @@ This roadmap breaks down the development of the Multi-Agent Software Factory int
 - Scaffold a lightweight frontend (e.g., React/Vite or Streamlit) for the Dashboard.
 - Build a Job Scheduler UI to configure automated background runs of the Orchestrator.
 - Implement manual ticket selection and trigger controls directly in the Dashboard UI.
-- Build views to display agent execution states and logs.
+- Build views to display agent execution states, rendering error/warning summaries and deep-linking to detailed execution logs when required.
 - Create a visualization for the Traceability Matrix (e.g., Sankey diagram or interactive table).
 - Connect the dashboard to the CSV data store and Orchestrator triggers.
 
