@@ -8,39 +8,39 @@ The Multi-Agent Software Factory is an autonomous, agent-driven software develop
 
 ```mermaid
 flowchart TD
-    User([User / Product Owner]) -->|Creates Issue/Ticket| GitHub[GitHub Issues via MCP]
+    User(["User / Product Owner"]) -->|Creates Issue/Ticket| GitHub["GitHub Issues via MCP"]
     
-    IDE([IDE]) -.->|Manual Trigger / Select Ticket| Orchestrator
-    Scheduler([Job Scheduler]) -.->|Scheduled Execution| Orchestrator
+    IDE(["IDE"]) -.->|"Manual Trigger / Select Ticket"| Orchestrator
+    Scheduler(["Job Scheduler"]) -.->|"Scheduled Execution"| Orchestrator
     
-    subgraph Agent Ecosystem [Agent Ecosystem (.md definitions)]
-        Orchestrator[Orchestrator Agent]
-        ReqAgent[Requirement Agent]
-        ArchAgent[Architect Agent]
-        CodeAgent[Coding Agent]
-        UTAgent[Unit Test Agent]
-        SWTestAgent[SW Test Agent]
+    subgraph AgentEcosystem ["Agent Ecosystem (.md definitions)"]
+        Orchestrator["Orchestrator Agent"]
+        ReqAgent["Requirement Agent"]
+        ArchAgent["Architect Agent"]
+        CodeAgent["Coding Agent"]
+        UTAgent["Unit Test Agent"]
+        SWTestAgent["SW Test Agent"]
         
-        Orchestrator -->|Prioritizes Tickets & Delegates| ReqAgent
+        Orchestrator -->|"Prioritizes Tickets & Delegates"| ReqAgent
         Orchestrator -->|Delegates| ArchAgent
         Orchestrator -->|Delegates| CodeAgent
         Orchestrator -->|Delegates| UTAgent
         Orchestrator -->|Delegates| SWTestAgent
     end
 
-    subgraph MCP Integration [Model Context Protocol Server]
-        GitHubMCP[GitHub Integration\n(Issues, PRs)]
-        CSVMCP[CSV Data Store\n(Requirements, Traceability)]
+    subgraph MCPIntegration ["Model Context Protocol Server"]
+        GitHubMCP["GitHub Integration (Issues, PRs)"]
+        CSVMCP["CSV Data Store (Requirements, Traceability)"]
     end
     
-    Orchestrator <--> MCP Integration
-    ReqAgent <--> MCP Integration
-    ArchAgent <--> MCP Integration
-    CodeAgent <--> MCP Integration
+    Orchestrator <--> MCPIntegration
+    ReqAgent <--> MCPIntegration
+    ArchAgent <--> MCPIntegration
+    CodeAgent <--> MCPIntegration
     
-    Dashboard[Dashboard UI] --> CSVMCP
+    Dashboard["Dashboard UI"] --> CSVMCP
     Dashboard -->|Configures| Scheduler
-    Dashboard -->|Manual Trigger / Select Ticket| Orchestrator
+    Dashboard -->|"Manual Trigger / Select Ticket"| Orchestrator
 ```
 
 ## Agent Roles
