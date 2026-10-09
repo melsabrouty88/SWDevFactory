@@ -9,6 +9,13 @@
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "REPLACE_WITH_YOUR_TOKEN_FROM_ENV"
       }
+    },
+    "csv": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ishayoyo/excel-mcp"
+      ]
     }
   }
 }

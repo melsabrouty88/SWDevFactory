@@ -7,7 +7,7 @@ This roadmap breaks down the development of the Multi-Agent Software Factory int
 
 **Engineering Tasks:**
 - Configure the remote GitHub MCP Server (`@modelcontextprotocol/server-github`) and document authentication (Personal Access Token).
-- Investigate and configure a CSV MCP server (or build a lightweight adapter if needed).
+- Configure the remote Excel/CSV MCP Server (`@ishayoyo/excel-mcp`) for robust local CSV data management.
 - Define the standard CSV schemas for `requirements.csv` and `traceability_matrix.csv`.
 - Create the initial `orchestrator_agent.md` definition with ticket prioritization logic and delegation capabilities.
 - Build local CLI/API entry points to allow the IDE to manually trigger the Orchestrator for a specific ticket.
