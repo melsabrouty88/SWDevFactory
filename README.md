@@ -1,4 +1,5 @@
-# Multi-Agent Software Factory
+# SWDevFactory
+A multi-agent orchestrator framework that automates the software development lifecycle from issue tickets—handling requirements, architecture, coding, unit testing, and SW testing with built-in MCP integration, CSV-based traceability, and a dashboard interface.
 
 ## Overview
 The Multi-Agent Software Factory is an autonomous, agent-driven software development system built on the Orchestrator-Worker pattern. It is designed to autonomously drive software development directly from issue tickets, ensuring rigorous bidirectional traceability across all work products (Requirements ↔ Architecture ↔ Code ↔ Tests).
