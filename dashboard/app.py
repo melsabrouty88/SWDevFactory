@@ -35,10 +35,11 @@ if not settings:
     st.stop()
 
 # Define core views using Streamlit Tabs
-tab_home, tab_job_control, tab_traceability, tab_logs = st.tabs([
+tab_home, tab_job_control, tab_traceability, tab_analytics, tab_logs = st.tabs([
     "🏠 Home", 
     "⚙️ Job Control", 
     "🔗 Traceability Matrix", 
+    "💰 Token Analytics",
     "📋 System Logs"
 ])
 
@@ -127,6 +128,48 @@ with tab_traceability:
             st.warning("CSV Data stores not found. Run the factory to generate data.")
     except Exception as e:
         st.error(f"Error loading CSV data: {str(e)}")
+
+with tab_analytics:
+    st.header("💰 Token & Cost Analytics")
+    st.markdown("Track the LLM token consumption and estimated costs across all subagents.")
+    
+    token_log_path = os.path.join(settings['base_dir'], 'logs', 'token_usage.csv')
+    
+    if os.path.exists(token_log_path):
+        try:
+            df_tokens = pd.read_csv(token_log_path)
+            
+            # Calculate totals
+            total_prompt = df_tokens['prompt_tokens'].sum()
+            total_completion = df_tokens['completion_tokens'].sum()
+            total_cost = df_tokens['estimated_cost'].sum()
+            
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Total Prompt Tokens", f"{total_prompt:,}")
+            col2.metric("Total Completion Tokens", f"{total_completion:,}")
+            col3.metric("Total Estimated Cost", f"${total_cost:,.4f}")
+            
+            st.subheader("Consumption per Subagent")
+            
+            # Group by subagent
+            df_grouped = df_tokens.groupby('subagent_name').agg({
+                'prompt_tokens': 'sum',
+                'completion_tokens': 'sum',
+                'estimated_cost': 'sum'
+            }).reset_index()
+            
+            # Render a bar chart for cost visualization
+            st.bar_chart(data=df_grouped, x='subagent_name', y='estimated_cost')
+            
+            st.dataframe(df_grouped, use_container_width=True)
+            
+            st.subheader("Raw Token Logs")
+            st.dataframe(df_tokens, use_container_width=True)
+            
+        except Exception as e:
+            st.error(f"Error parsing token usage logs: {str(e)}")
+    else:
+        st.info("No token usage data found yet. Trigger a workflow to generate token logs.")
 
 with tab_logs:
     st.header("📋 Agent State & Log Monitor")

@@ -59,7 +59,8 @@ Our ecosystem consists of specialized agents defined in agnostic Markdown format
 - **CSV Data Store**: All requirements and traceability matrices are strictly documented, versioned, and stored in structured CSV formats within the workspace.
 - **Traceability Engine**: Enforces strict bidirectional traceability linking Requirements ↔ Architecture ↔ Code ↔ Tests. 
 - **Execution Logging & Fallbacks**: The Orchestrator strictly logs all operations, failures, and fallbacks into structured execution logs to prevent silent failures and provide transparent summaries.
-- **Dashboard Interface**: A visual UI to monitor agent execution states, configure scheduling for the Orchestrator, manually trigger ticket processing, track the end-to-end traceability matrix, and visualize execution logs (including errors and warning summaries with prompts to check detailed logs).
+- **Token & Cost Analytics**: The Orchestrator seamlessly tracks LLM token consumption (prompt/completion) and estimated costs across all subagent activities. Cost metrics are explicitly logged to GitHub as ticket remarks upon activity completion, and dynamically visualized per-subagent inside the Dashboard.
+- **Dashboard Interface**: A visual UI to monitor agent execution states, configure scheduling for the Orchestrator, manually trigger ticket processing, track the end-to-end traceability matrix, visualize token consumption costs, and analyze execution logs (including errors and warning fallbacks).
 
 ## Workflow
 1. **Trigger & Prioritization**: The system can be started via a scheduled job configured in the Dashboard, or triggered manually from the IDE or Dashboard (where a specific ticket can also be selected). When running autonomously, the Orchestrator checks open GitHub Issues via MCP and decides on implementation priority.

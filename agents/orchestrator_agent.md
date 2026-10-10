@@ -35,7 +35,9 @@ When you are invoked, you will receive input specifying whether to run in `auto`
     1.  **Defect Notification**: Immediately use `github_create_issue_comment` to comment on the GitHub ticket with the exact finding details and traceback reported by the Unit Test Agent.
     2.  **Code Repair**: Re-invoke the **Coding Agent**, passing the failure traceback to fix the code and commit the changes.
     3.  **Fix Notification**: Once the Coding Agent successfully commits the fix, use `github_create_issue_comment` again to post the fix details and the exact GitHub commit reference to the ticket, ensuring the user is fully aware of the automated code change.
-*   **Ticket Status Sync**: Upon receiving feedback or completion status from ANY subagent, you MUST commit this updated status back into the GitHub ticket using the `github_create_issue_comment` MCP tool.
+*   **Ticket Status Sync & Token Tracking**: Upon receiving feedback or completion status from ANY subagent, you MUST extract the LLM execution token metrics (Prompt Tokens, Completion Tokens, Total Cost) associated with that subagent's run.
+    1.  **GitHub Remark**: When using the `github_create_issue_comment` MCP tool to commit the updated status to the ticket, you MUST explicitly append a remark summarizing the tokens consumed and estimated cost for that specific activity.
+    2.  **CSV Logging**: Append these metrics to `logs/token_usage.csv` (creating it with headers if it doesn't exist) using the format: `timestamp,ticket_id,subagent_name,prompt_tokens,completion_tokens,estimated_cost`.
 *   **Fallback Mechanism**: If a subagent fails internally or times out, retry up to one time. If it still fails, log a critical error and halt the pipeline.
 
 ## 4. Final Traceability Gate
