@@ -62,6 +62,17 @@ def load_agent_definition(agent_file="agents/orchestrator_agent.md"):
         logger.error(f"Agent definition file not found at {filepath}")
         sys.exit(1)
 
+def test_mcp_connections():
+    """Validates that the underlying MCP server dependencies (like npx) are available."""
+    import subprocess
+    try:
+        # Check if npx is installed, which is required by our mcp_servers.json config
+        result = subprocess.run(["npx", "--version"], capture_output=True, text=True, check=True)
+        logger.info(f"MCP Dependency Check Passed: Node/npx is available (v{result.stdout.strip()}).")
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+
 def invoke_orchestrator(mode, ticket_id=None):
     """
     Simulates the invocation of the AI Orchestrator Agent.
@@ -83,6 +94,20 @@ def invoke_orchestrator(mode, ticket_id=None):
 
     logger.info("Connecting to MCP Servers (GitHub, Excel-MCP)...")
     
+    if not test_mcp_connections():
+        logger.error("MCP Server Connection Failed: 'npx' command not found or inaccessible.")
+        logger.warning("FALLBACK INITIATED: The system cannot start the GitHub or CSV MCP servers natively.")
+        logger.warning("Without MCP access, the Orchestrator cannot read issues, write CSVs, or commit code.")
+        
+        # Output structured summary for dashboard visualization on failure
+        print("\nExecution Summary:")
+        print("Status: FAILED")
+        print("Processed Ticket: None")
+        print("Errors: MCP Servers failed to initialize. Node.js (npx) is missing or broken.")
+        print("Warnings: Orchestrator execution aborted to prevent silent data loss.")
+        print("Next Steps: Install Node.js from https://nodejs.org/, restart your terminal, and retry.")
+        sys.exit(1)
+        
     # ---------------------------------------------------------
     # TODO: Integrate specific AI SDK here (e.g. Langchain, Anthropic SDK, Antigravity SDK)
     # Example pseudocode for actual invocation:
