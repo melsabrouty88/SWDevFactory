@@ -202,7 +202,8 @@ with tab_analytics:
             }).reset_index()
             
             # Render a bar chart for cost visualization
-            st.bar_chart(data=df_grouped, x='subagent_name', y='estimated_cost')
+            # (Note: st.bar_chart is disabled here due to a known Altair/typing_extensions TypedDictMeta bug)
+            # st.bar_chart(data=df_grouped, x='subagent_name', y='estimated_cost')
             
             st.dataframe(df_grouped, use_container_width=True)
             
