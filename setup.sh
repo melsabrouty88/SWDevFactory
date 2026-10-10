@@ -40,7 +40,26 @@ fi
 echo "-> Setting execution permissions on python scripts..."
 chmod +x scripts/traceability_validator.py scripts/report_generator.py
 
+echo ""
+echo "============================================="
+echo " GitHub Personal Access Token (PAT) Setup"
+echo "============================================="
+echo "The system requires a GitHub PAT to interact with issues and PRs via MCP."
+echo "1. Your browser will now open to generate a new token."
+echo "2. Generate a token (Classic) with 'repo' scope."
+echo "3. Copy the generated token."
+echo "4. Open the file 'config/mcp_servers.json' in your code editor."
+echo "5. Replace the placeholder 'YOUR_GITHUB_PAT' with your copied token."
+
+# Open browser based on OS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    open "https://github.com/settings/tokens/new"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    xdg-open "https://github.com/settings/tokens/new"
+fi
+
+echo ""
 echo "============================================="
 echo " Setup Complete! 🎉"
-echo " To start the system, simply execute: ./run.sh"
+echo " After updating your PAT, execute: ./run.sh"
 echo "============================================="

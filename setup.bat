@@ -34,8 +34,23 @@ IF EXIST dashboard\requirements.txt (
     echo -^> No dashboard\requirements.txt found, skipping.
 )
 
+echo.
+echo =============================================
+echo  GitHub Personal Access Token (PAT) Setup
+echo =============================================
+echo The system requires a GitHub PAT to interact with issues and PRs via MCP.
+echo 1. Your browser will now open to generate a new token.
+echo 2. Generate a token (Classic) with 'repo' scope.
+echo 3. Copy the generated token.
+echo 4. Open the file 'config\mcp_servers.json' in your code editor.
+echo 5. Replace the placeholder 'YOUR_GITHUB_PAT' with your copied token.
+
+:: Open browser on Windows
+start https://github.com/settings/tokens/new
+
+echo.
 echo =============================================
 echo  Setup Complete! 
-echo  To start the system, simply double-click run.bat
+echo  After updating your PAT, double-click run.bat
 echo =============================================
 pause
