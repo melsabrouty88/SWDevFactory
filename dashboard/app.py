@@ -95,18 +95,14 @@ with tab_job_control:
                 st.info(f"Triggering Orchestrator for ticket #{ticket_id}...")
                 trigger_script = os.path.join(settings['base_dir'], 'triggers', 'run_orchestrator.py')
                 try:
-                    result = subprocess.run(['python3', trigger_script, '--ticket', ticket_id.strip()], 
-                                            capture_output=True, text=True)
-                    if result.returncode == 0:
-                        st.success(f"Factory completed run for ticket #{ticket_id}.")
-                        with st.expander("View Output"):
-                            st.code(result.stdout)
-                    else:
-                        st.error(f"Factory failed for ticket #{ticket_id}.")
-                        with st.expander("View Error Log"):
-                            # The trigger script prints its execution summary to stdout even on failure
-                            full_error = f"--- STDOUT ---\n{result.stdout}\n\n--- STDERR ---\n{result.stderr}"
-                            st.code(full_error.strip())
+                    # Run in background so Streamlit can render live updates
+                    log_file_path = os.path.join(settings['base_dir'], 'logs', 'last_run.log')
+                    with open(log_file_path, 'w') as f:
+                        subprocess.Popen(
+                            ['python3', trigger_script, '--ticket', ticket_id.strip()],
+                            stdout=f, stderr=subprocess.STDOUT
+                        )
+                    st.success(f"Factory triggered for ticket #{ticket_id}! Switch to the Home tab to see Live Tracking.")
                 except Exception as e:
                     st.error(f"Execution failed: {str(e)}")
             else:
