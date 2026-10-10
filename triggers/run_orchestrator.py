@@ -147,33 +147,65 @@ def invoke_orchestrator(mode, ticket_id=None):
     # The actual instruction to pass to the Antigravity CLI
     prompt = f"Use the orchestrator_agent skill to process ticket #{ticket_id if ticket_id else '101'}. Use the configured MCP servers."
     
+    success = False
+    error_msg = "Unknown Error"
+    
     try:
-        # Run the agy CLI interactively so output streams to stdout/stderr
+        # Run the agy CLI and capture output so we can scan it for generic errors
         update_status("Antigravity Engine", 50, "Executing native LLM pipeline inside the IDE environment...")
         
-        # If 'agy' is in path, this will trigger the agent directly in the IDE.
-        process = subprocess.run(["agy", prompt], capture_output=False)
+        process = subprocess.run(["agy", prompt], capture_output=True, text=True)
+        
+        # Stream the output directly to the console so the Dashboard catches it
+        if process.stdout:
+            print(process.stdout, end="")
+        if process.stderr:
+            print(process.stderr, file=sys.stderr, end="")
         
         if process.returncode != 0:
             logger.warning(f"Antigravity CLI returned non-zero exit code: {process.returncode}")
+            success = False
+            error_msg = f"Antigravity CLI failed with code {process.returncode}"
+        elif "[ERROR]" in process.stdout or "[ERROR]" in process.stderr:
+            logger.warning("Antigravity CLI returned exit code 0, but internal errors were detected in the log stream.")
+            success = False
+            error_msg = "Pipeline completed but logged internal errors."
+        else:
+            success = True
+            error_msg = "None"
             
     except FileNotFoundError:
         logger.error("'agy' command not found. Ensure Antigravity CLI is installed and in your PATH.")
         print("[ERROR] Could not invoke LLM because Antigravity CLI is missing.")
+        success = False
+        error_msg = "'agy' command not found in PATH."
     except Exception as e:
         logger.error(f"Failed to execute agy CLI: {e}")
+        success = False
+        error_msg = str(e)
     
     # Clear the active run status when done
     with open(status_path, 'w') as f:
         json.dump({"status": "idle"}, f)
     
     print("\nExecution Summary:")
-    print("Status: SUCCESS (Handoff Complete)")
-    print(f"Processed Ticket: {ticket_id if ticket_id else 'Auto-selected #101'}")
-    print("Errors: None")
-    print("Warnings: None")
-    print("Next Steps: Pipeline completed natively by Antigravity.")
+    if success:
+        print("Status: SUCCESS (Handoff Complete)")
+        print(f"Processed Ticket: {ticket_id if ticket_id else 'Auto-selected #101'}")
+        print("Errors: None")
+        print("Warnings: None")
+        print("Next Steps: Pipeline completed natively by Antigravity.")
+    else:
+        print("Status: FAILED")
+        print(f"Processed Ticket: {ticket_id if ticket_id else 'Auto-selected #101'}")
+        print(f"Errors: {error_msg}")
+        print("Warnings: Handoff to native IDE engine aborted.")
+        print("Next Steps: Install 'agy' CLI or run this script inside the Antigravity integrated terminal.")
+        
     print("--- END AGENT LOG STREAM ---\n")
+    
+    if not success:
+        sys.exit(1)
 
 def main():
     parser = argparse.ArgumentParser(description="Trigger the SWDevFactory Orchestrator Agent.")
