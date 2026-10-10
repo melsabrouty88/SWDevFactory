@@ -4,8 +4,8 @@ This document outlines the detailed technical specifications and execution steps
 
 ## Current Status
 - [x] **Develop Software Test Agent Definition (`agents/sw_test_agent.md`)**
-- [ ] **Develop Traceability Validator Script (`scripts/traceability_validator.py`)**
-- [ ] **Develop Report Generator Script (`scripts/report_generator.py`)**
+- [x] **Develop Traceability Validator Script (`scripts/traceability_validator.py`)**
+- [x] **Develop Report Generator Script (`scripts/report_generator.py`)**
 - [ ] **Update Orchestrator Pipeline for Traceability Enforcement**
 - [ ] **Implement & Execute Phase 4 Verification Tests (`tests/test_phase4.py`)**
 
