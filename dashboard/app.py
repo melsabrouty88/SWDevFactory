@@ -47,9 +47,33 @@ with tab_home:
     st.header("Factory Overview")
     st.info("The factory is currently online. Use the Job Control tab to trigger the Orchestrator, or view the Traceability Matrix to inspect output.")
     
+    # Live Active Run Tracking
+    active_run_path = os.path.join(settings['base_dir'], 'logs', 'active_run.json')
+    if os.path.exists(active_run_path):
+        try:
+            with open(active_run_path, 'r') as f:
+                active_run = json.load(f)
+            if active_run.get('status') == 'running':
+                st.subheader("🏃‍♂️ Live Execution Tracking")
+                st.write(f"**Target:** Ticket #{active_run.get('ticket')}")
+                st.write(f"**Active Subagent:** {active_run.get('current_agent')}")
+                st.progress(active_run.get('progress', 0) / 100.0)
+                st.code(active_run.get('message'))
+                # Auto-refresh mechanism to simulate live pipeline tracking
+                import time
+                time.sleep(2)
+                st.rerun()
+            else:
+                st.success("All pipelines are currently idle. System is ready for the next job.")
+        except Exception as e:
+            pass
+    else:
+        st.success("All pipelines are currently idle. System is ready for the next job.")
+    
+    st.markdown("---")
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric(label="Active Agents", value="4")
+        st.metric(label="Configured Subagents", value="5")
     with col2:
         st.metric(label="Pending Tickets", value="--")
     with col3:
