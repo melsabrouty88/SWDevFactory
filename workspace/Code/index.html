@@ -19,6 +19,23 @@
             <button id="yellow-btn" class="btn yellow-btn">Yellow</button>
             <button id="green-btn" class="btn green-btn">Green</button>
         </div>
+        <!-- @req_id: REQ-2-01 Timer Configuration and Controls -->
+        <div class="timer-controls">
+            <div class="input-group">
+                <label for="timer-interval-input">Interval (seconds):</label>
+                <input 
+                    type="number" 
+                    id="timer-interval-input" 
+                    name="timer-interval" 
+                    min="1" 
+                    step="1" 
+                    value="3" 
+                    placeholder="3"
+                />
+                <span id="timer-error-msg" class="error-msg" aria-live="polite"></span>
+            </div>
+            <button id="timer-toggle-btn" class="btn timer-btn">Start Timer</button>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>

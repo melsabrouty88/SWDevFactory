@@ -3,7 +3,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
 }
@@ -55,6 +55,7 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 10px;
+    margin-bottom: 20px;
 }
 
 .btn {
@@ -65,7 +66,7 @@ h1 {
     border-radius: 5px;
     color: white;
     font-weight: bold;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, background-color 0.2s;
 }
 
 .btn:hover {
@@ -75,3 +76,61 @@ h1 {
 .red-btn { background-color: #cc0000; }
 .yellow-btn { background-color: #cccc00; color: #333; }
 .green-btn { background-color: #00cc00; }
+
+/* @req_id: REQ-2-01 Timer Controls Styling */
+.timer-controls {
+    margin-top: 15px;
+    padding: 15px 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #444;
+    font-weight: bold;
+}
+
+#timer-interval-input {
+    width: 80px;
+    padding: 8px 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+#timer-interval-input:focus {
+    outline: none;
+    border-color: #2196f3;
+}
+
+.timer-btn {
+    background-color: #2196f3;
+    min-width: 130px;
+}
+
+.timer-btn.stop-btn {
+    background-color: #e53935;
+}
+
+.error-msg {
+    color: #d32f2f;
+    font-size: 12px;
+    min-height: 16px;
+    font-weight: 500;
+}
