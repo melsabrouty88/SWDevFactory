@@ -3,7 +3,34 @@ echo =============================================
 echo  Starting Multi-Agent Software Factory Setup 
 echo =============================================
 
-:: 1. Create Python virtual environment if it doesn't exist
+:: 1. System Requirements Check
+echo =============================================
+echo  System Requirements Check
+echo =============================================
+
+:: Check for Antigravity CLI (agy)
+where agy >nul 2>nul
+if %errorlevel% neq 0 (
+    echo [WARNING] Antigravity CLI ^(agy^) not found in PATH.
+    echo This is required to natively run the LLM agents inside VS Code.
+    echo Please ensure the Antigravity extension is installed and CLI is configured.
+) else (
+    echo [OK] Antigravity CLI ^(agy^) found.
+)
+
+:: Check for GitHub CLI (gh)
+where gh >nul 2>nul
+if %errorlevel% neq 0 (
+    echo [WARNING] GitHub CLI ^(gh^) not found in PATH.
+    echo This is recommended for managing GitHub authentication and PRs natively.
+    echo Install instructions: https://cli.github.com/
+) else (
+    echo [OK] GitHub CLI ^(gh^) found.
+)
+
+echo.
+
+:: 2. Create Python virtual environment if it doesn't exist
 IF NOT EXIST venv (
     echo -^> Creating Python virtual environment (venv)...
     python -m venv venv
