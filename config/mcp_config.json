@@ -7,7 +7,7 @@
         "@modelcontextprotocol/server-github"
       ],
       "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "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"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_demo_token_1234567890"
       }
     },
     "csv": {
