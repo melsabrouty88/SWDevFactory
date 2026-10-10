@@ -50,6 +50,8 @@ with tab_home:
     
     # Live Active Run Tracking
     active_run_path = os.path.join(settings['base_dir'], 'logs', 'active_run.json')
+    should_auto_refresh = False
+    
     if os.path.exists(active_run_path):
         try:
             with open(active_run_path, 'r') as f:
@@ -60,10 +62,8 @@ with tab_home:
                 st.write(f"**Active Subagent:** {active_run.get('current_agent')}")
                 st.progress(active_run.get('progress', 0) / 100.0)
                 st.code(active_run.get('message'))
-                # Auto-refresh mechanism to simulate live pipeline tracking
-                import time
-                time.sleep(2)
-                st.rerun()
+                # Auto-refresh mechanism deferred to the end of the script
+                should_auto_refresh = True
             else:
                 st.success("All pipelines are currently idle. System is ready for the next job.")
         except Exception as e:
@@ -223,3 +223,10 @@ with tab_analytics:
 #             st.success("No GitHub sync errors detected. All systems healthy.")
 #     else:
 #         st.info("Log file not found. System hasn't generated errors yet.")
+
+# --- Auto-Refresh Engine ---
+# Executed at the very end to ensure all tabs are fully rendered before we sleep/rerun.
+if 'should_auto_refresh' in locals() and should_auto_refresh:
+    import time
+    time.sleep(2)
+    st.rerun()
