@@ -172,7 +172,7 @@ def invoke_orchestrator(mode, ticket_id=None):
         if not agy_cmd:
             raise FileNotFoundError()
 
-        process = subprocess.run([agy_cmd, "-p", prompt], capture_output=True, text=True)
+        process = subprocess.run([agy_cmd], input=prompt, capture_output=True, text=True)
         
         # Stream the output directly to the console so the Dashboard catches it
         if process.stdout:
