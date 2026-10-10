@@ -174,7 +174,7 @@ def invoke_orchestrator(mode, ticket_id=None):
 
         # Use a raw bash pipe to guarantee the CLI receives the full prompt buffer before the stream closes
         safe_prompt = prompt.replace('"', '\\"')
-        cmd_string = f'echo "{safe_prompt}" | {agy_cmd}'
+        cmd_string = f'echo "{safe_prompt}" | {agy_cmd} --dangerously-skip-permissions'
         process = subprocess.run(cmd_string, shell=True, capture_output=True, text=True)
         
         # Stream the output directly to the console so the Dashboard catches it
