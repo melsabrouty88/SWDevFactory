@@ -1,0 +1,77 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.traffic-light {
+    background-color: #333;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100px;
+    margin: 0 auto 30px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.light {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #555; /* Default off state */
+    transition: background-color 0.3s;
+}
+
+.light.active.red {
+    background-color: #ff0000;
+    box-shadow: 0 0 20px #ff0000;
+}
+
+.light.active.yellow {
+    background-color: #ffff00;
+    box-shadow: 0 0 20px #ffff00;
+}
+
+.light.active.green {
+    background-color: #00ff00;
+    box-shadow: 0 0 20px #00ff00;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.red-btn { background-color: #cc0000; }
+.yellow-btn { background-color: #cccc00; color: #333; }
+.green-btn { background-color: #00cc00; }
