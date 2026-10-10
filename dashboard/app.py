@@ -88,11 +88,15 @@ with tab_job_control:
     
     with col_manual:
         st.subheader("Manual Trigger")
+        
+        # Display persisted manual trigger message so it isn't lost on refresh
+        if 'manual_trigger_msg' in st.session_state:
+            st.success(st.session_state['manual_trigger_msg'])
+            
         ticket_id = st.text_input("GitHub Issue ID", placeholder="e.g., 123")
         
         if st.button("🚀 Run Factory on Ticket"):
             if ticket_id.strip():
-                st.info(f"Triggering Orchestrator for ticket #{ticket_id}...")
                 trigger_script = os.path.join(settings['base_dir'], 'triggers', 'run_orchestrator.py')
                 try:
                     # Run in background so Streamlit can render live updates
@@ -102,12 +106,16 @@ with tab_job_control:
                             ['python3', trigger_script, '--ticket', ticket_id.strip()],
                             stdout=f, stderr=subprocess.STDOUT
                         )
-                    st.success(f"Factory triggered for ticket #{ticket_id}! Switch to the Home tab to see Live Tracking.")
+                    st.session_state['manual_trigger_msg'] = f"Factory triggered for ticket #{ticket_id}! Switch to the Home tab to see Live Tracking."
+                    import time
+                    time.sleep(0.5)  # Let the background process create active_run.json
+                    st.rerun()       # Force an immediate rerun to kick off the Home tab's auto-refresh loop
                 except Exception as e:
                     st.error(f"Execution failed: {str(e)}")
             else:
                 st.warning("Please enter a valid Ticket ID.")
                 
+
     with col_auto:
         st.subheader("Auto-Triage Scheduler")
         schedule_interval = st.selectbox("Run frequency", ["Every 1 hour", "Every 4 hours", "Daily at midnight"])
