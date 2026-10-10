@@ -99,6 +99,18 @@ with tab_job_control:
             if ticket_id.strip():
                 trigger_script = os.path.join(settings['base_dir'], 'triggers', 'run_orchestrator.py')
                 try:
+                    # Pre-emptively write the active_run.json to avoid a race condition
+                    active_run_path = os.path.join(settings['base_dir'], 'logs', 'active_run.json')
+                    os.makedirs(os.path.dirname(active_run_path), exist_ok=True)
+                    with open(active_run_path, 'w') as f:
+                        json.dump({
+                            "status": "running",
+                            "ticket": ticket_id.strip(),
+                            "current_agent": "Orchestrator Booting",
+                            "progress": 5,
+                            "message": "Initializing pipeline..."
+                        }, f)
+
                     # Run in background so Streamlit can render live updates
                     log_file_path = os.path.join(settings['base_dir'], 'logs', 'last_run.log')
                     with open(log_file_path, 'w') as f:
@@ -107,9 +119,9 @@ with tab_job_control:
                             stdout=f, stderr=subprocess.STDOUT
                         )
                     st.session_state['manual_trigger_msg'] = f"Factory triggered for ticket #{ticket_id}! Switch to the Home tab to see Live Tracking."
-                    import time
-                    time.sleep(0.5)  # Let the background process create active_run.json
-                    st.rerun()       # Force an immediate rerun to kick off the Home tab's auto-refresh loop
+                    
+                    # Force an immediate rerun to kick off the Home tab's auto-refresh loop
+                    st.rerun()       
                 except Exception as e:
                     st.error(f"Execution failed: {str(e)}")
             else:
