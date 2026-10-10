@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "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"
+      }
+    },
+    "csv": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ishayoyo/excel-mcp"
+      ]
+    }
+  }
+}

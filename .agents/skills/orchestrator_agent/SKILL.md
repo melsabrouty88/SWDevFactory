@@ -29,12 +29,21 @@ When you are invoked, you will receive input specifying whether to run in `auto`
 
 ## 3. Pipeline Delegation & Self-Healing Loop
 *   Formulate a comprehensive prompt containing the issue context.
-*   **Sequential Pipeline**: You are responsible for sequentially invoking the specialized subagents:
-    1.  Invoke the **Requirement Agent** to formalize the issue into atomic requirements in the CSV.
-    2.  Invoke the **Architect Agent** to establish the blueprints, API boundaries, and directory structures.
-    3.  Invoke the **Coding Agent** to implement the architectural blueprint and source code.
-    4.  Invoke the **Unit Test Agent** to verify the implemented source code.
-    5.  Invoke the **SW Test Agent** to generate and execute high-level E2E tests validating the acceptance criteria.
+*   **Sequential Pipeline**: You are responsible for sequentially invoking the specialized subagents. Since you are running in the native Antigravity engine, you must explicitly define these subagents before invoking them:
+    1. For each agent in the pipeline, first use your file tools to read its prompt from its SKILL file (e.g., `.agents/skills/requirement_agent/SKILL.md`).
+    2. Use the `define_subagent` tool to register it (e.g., name="RequirementAgent"). Ensure you set `enable_mcp_tools=true` and `enable_write_tools=true` so they can edit files and access the GitHub/CSV MCP servers.
+    3. Use the `invoke_subagent` tool to start the agent and wait for it to finish.
+    
+    The required pipeline order is:
+    1. **RequirementAgent**: formalize the issue into atomic requirements in the CSV.
+    2. **ArchitectAgent**: establish blueprints, API boundaries, and directory structures.
+    3. **CodingAgent**: implement source code.
+    4. **UnitTestAgent**: verify the implemented source code.
+    5. **SWTestAgent**: generate and execute high-level E2E tests validating the acceptance criteria.
+
+*   **Live Dashboard Synchronization**: You must continuously update the `logs/active_run.json` file natively using the `write_to_file` (Overwrite=true) tool so the user's Dashboard UI stays visually in sync.
+    *   Whenever you transition to a new phase or invoke a new subagent, overwrite `logs/active_run.json` with a JSON payload like: `{"status": "running", "ticket": "1", "current_agent": "RequirementAgent", "progress": 30, "message": "Formalizing raw ticket into atomic requirements..."}`
+    *   When the entire factory completes, update it to `{"status": "idle"}`.
 *   Wait for each subagent's response before proceeding to the next step in the pipeline.
 *   **Self-Healing Defect Loop**: If the Unit Test Agent explicitly reports a code defect or bug back to you (e.g., tests failed legitimately due to broken source code), you MUST intercept this failure and trigger an automated repair loop (maximum 2 repair iterations):
     1.  **Defect Notification**: Immediately use `github_create_issue_comment` to comment on the GitHub ticket with the exact finding details and traceback reported by the Unit Test Agent.
