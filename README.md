@@ -69,3 +69,28 @@ Our ecosystem consists of specialized agents defined in agnostic Markdown format
 4. **Implementation**: Coding Agent writes the source code based on designs.
 5. **Testing**: Unit Test Agent writes code-level tests; SW Test Agent creates black-box test cases traceable to the CSV requirements.
 6. **Delivery**: Orchestrator aggregates the results, verifies traceability, and creates a PR via GitHub MCP.
+
+## How to Use
+
+The repository is equipped with native 1-click execution scripts for both macOS/Linux and Windows environments. These scripts will automatically manage the Python virtual environment and dependencies for you.
+
+### macOS & Linux
+1. **First-Time Setup**: Open your terminal in the project directory and run the setup script to install dependencies.
+   ```bash
+   ./setup.sh
+   ```
+2. **Launch Dashboard**: Start the system UI control plane.
+   ```bash
+   ./run.sh
+   ```
+
+### Windows
+1. **First-Time Setup**: Double-click `setup.bat` from your File Explorer to create the virtual environment and install dependencies.
+2. **Launch Dashboard**: Double-click `run.bat` to boot up the system UI control plane.
+
+### Inside the Dashboard
+Once the dashboard opens in your browser:
+* **Job Control**: Navigate to the `Job Control` tab to manually trigger the Orchestrator by entering a GitHub Ticket ID, or configure an automated schedule.
+* **Traceability Matrix**: View the live, mathematical proof linking requirements to code and tests.
+* **Token Analytics**: Monitor the cost and token consumption of each agent's activity.
+* **System Logs**: View raw outputs, self-healing repairs, and GitHub API fallbacks.
