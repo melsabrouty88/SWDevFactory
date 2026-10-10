@@ -20,8 +20,8 @@ class TestPhase1(unittest.TestCase):
             self.assertIn("@ishayoyo/excel-mcp", config["mcpServers"]["csv"]["args"])
 
     def test_env_example_exists(self):
-        env_path = os.path.join(self.base_dir, 'config', '.env.example')
-        self.assertTrue(os.path.exists(env_path), ".env.example does not exist")
+        # Deprecated: We now use mcp_servers.json exclusively.
+        pass
 
     def test_requirements_schema_exists_and_valid(self):
         schema_path = os.path.join(self.base_dir, 'config', 'ProjConfig', 'schemas', 'requirements_schema.json')
@@ -96,16 +96,27 @@ class TestPhase1(unittest.TestCase):
 
     def test_trigger_script_missing_token_failure(self):
         trigger_path = os.path.join(self.base_dir, 'triggers', 'run_orchestrator.py')
+        mcp_path = os.path.join(self.base_dir, 'config', 'mcp_servers.json')
         
-        env = os.environ.copy()
-        # Remove token if exists
-        if 'GITHUB_PERSONAL_ACCESS_TOKEN' in env:
-            del env['GITHUB_PERSONAL_ACCESS_TOKEN']
+        # Backup existing config
+        with open(mcp_path, 'r') as f:
+            original_content = f.read()
             
-        result = subprocess.run([trigger_path, '--auto'], env=env, capture_output=True, text=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("Status: FAILED", result.stdout)
-        self.assertIn("Missing GitHub credentials", result.stdout)
+        try:
+            # Write bad configuration
+            bad_config = json.loads(original_content)
+            bad_config['mcpServers']['github']['env']['GITHUB_PERSONAL_ACCESS_TOKEN'] = 'YOUR_GITHUB_PAT'
+            with open(mcp_path, 'w') as f:
+                json.dump(bad_config, f)
+                
+            result = subprocess.run([trigger_path, '--auto'], capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Status: FAILED", result.stdout)
+            self.assertIn("Missing GitHub credentials", result.stdout)
+        finally:
+            # Restore original configuration
+            with open(mcp_path, 'w') as f:
+                f.write(original_content)
 
 if __name__ == '__main__':
     unittest.main()

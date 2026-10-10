@@ -25,24 +25,31 @@ logging.basicConfig(
 logger = logging.getLogger("OrchestratorTrigger")
 
 def load_environment():
-    """Loads environment variables and verifies required secrets."""
-    env_path = os.path.join(os.path.dirname(__file__), '../config/.env')
-    if HAS_DOTENV:
-        load_dotenv(dotenv_path=env_path)
-    else:
-        logger.warning("python-dotenv not installed, skipping .env load.")
-    
-    # Check for GitHub PAT, critical for MCP server to function
-    if not os.environ.get("GITHUB_PERSONAL_ACCESS_TOKEN"):
-        logger.error("GITHUB_PERSONAL_ACCESS_TOKEN is missing from environment or config/.env file.")
-        
-        # Output structured summary for dashboard visualization on failure
-        print("\nExecution Summary:")
-        print("Status: FAILED")
-        print("Processed Ticket: None")
-        print("Errors: Missing GitHub credentials. Cannot start Orchestrator.")
-        print("Warnings: None")
-        print("Next Steps: Update config/.env with a valid GitHub Personal Access Token.")
+    """Loads environment variables and verifies required secrets from mcp_servers.json."""
+    import json
+    mcp_config_path = os.path.join(os.path.dirname(__file__), '../config/mcp_servers.json')
+    try:
+        with open(mcp_config_path, 'r') as f:
+            mcp_data = json.load(f)
+            pat = mcp_data.get('mcpServers', {}).get('github', {}).get('env', {}).get('GITHUB_PERSONAL_ACCESS_TOKEN', '')
+            
+            # Check if PAT is empty or still the default placeholder
+            if pat == "YOUR_GITHUB_PAT" or not pat:
+                logger.error("GITHUB_PERSONAL_ACCESS_TOKEN is missing or not updated in config/mcp_servers.json.")
+                
+                # Output structured summary for dashboard visualization on failure
+                print("\nExecution Summary:")
+                print("Status: FAILED")
+                print("Processed Ticket: None")
+                print("Errors: Missing GitHub credentials. Cannot start Orchestrator.")
+                print("Warnings: None")
+                print("Next Steps: Update config/mcp_servers.json with a valid GitHub Personal Access Token.")
+                sys.exit(1)
+            else:
+                # Successfully loaded, inject it into os.environ for downstream SDK processes
+                os.environ["GITHUB_PERSONAL_ACCESS_TOKEN"] = pat
+    except Exception as e:
+        logger.error(f"Failed to read config/mcp_servers.json: {e}")
         sys.exit(1)
 
 def load_agent_definition(agent_file="agents/orchestrator_agent.md"):
