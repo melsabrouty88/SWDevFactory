@@ -4,8 +4,8 @@ This document details the technical specifications and execution steps for Phase
 
 ## Current Status
 - [x] **Develop Requirement Agent Definition**
-- [ ] **Develop Architect Agent Definition**
-- [ ] **Implement Clarification Templates & Design Guidelines**
+- [x] **Develop Architect Agent Definition**
+- [x] **Implement Clarification Templates & Design Guidelines**
 - [ ] **Establish Initial Traceability & CSV Integration**
 
 ---
