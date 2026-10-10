@@ -154,7 +154,25 @@ def invoke_orchestrator(mode, ticket_id=None):
         # Run the agy CLI and capture output so we can scan it for generic errors
         update_status("Antigravity Engine", 50, "Executing native LLM pipeline inside the IDE environment...")
         
-        process = subprocess.run(["agy", prompt], capture_output=True, text=True)
+        import shutil
+        agy_cmd = shutil.which("agy")
+        if not agy_cmd:
+            # Aggressively hunt for the CLI in common installation paths if PATH is corrupted
+            common_paths = [
+                "/usr/local/bin/agy",
+                os.path.expanduser("~/.local/bin/agy"),
+                os.path.expanduser("~/.gemini/bin/agy"),
+                os.path.expanduser("~/bin/agy")
+            ]
+            for p in common_paths:
+                if os.path.exists(p):
+                    agy_cmd = p
+                    break
+        
+        if not agy_cmd:
+            raise FileNotFoundError()
+
+        process = subprocess.run([agy_cmd, "-p", prompt], capture_output=True, text=True)
         
         # Stream the output directly to the console so the Dashboard catches it
         if process.stdout:
