@@ -1,1 +1,7 @@
 req_id,github_issue_id,title,description,acceptance_criteria,priority,status,creation_date,last_modification_date,comment
+REQ-1-01,1,Traffic Light Demonstration Layout and Initialization,"Implement a traffic light demonstration game for kids consisting of a vertical traffic light with three colors (Red, Yellow, Green). The initial state should have all lights turned off.","- A vertical traffic light layout is displayed with Red at the top, Yellow in the middle, and Green at the bottom.
+- Three buttons are provided, one for each corresponding light.
+- All lights are off by default on initial load.",High,Pending,2026-10-10T14:51:16.773414+00:00,2026-10-10T14:51:16.773707+00:00,"Assumption confirmed by user: Vertical layout, all lights initially off."
+REQ-1-02,1,Traffic Light Button Toggles and State Logic,"Provide interactive buttons for each light (Red, Yellow, Green) that allow users to toggle the state of the individual lights. Only one light can be active at a time.","- Clicking a button for an inactive light turns that light on.
+- Clicking a button for a light that is currently on turns it off.
+- Turning on any light automatically turns off any other light that is currently active, ensuring a maximum of one light is on at any time.",High,Pending,2026-10-10T14:51:16.773712+00:00,2026-10-10T14:51:16.773719+00:00,Assumption confirmed by user: Only one light active at a time.

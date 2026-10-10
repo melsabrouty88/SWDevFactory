@@ -62,3 +62,7 @@ class TrafficLightUI {
 document.addEventListener('DOMContentLoaded', () => {
     new TrafficLightUI();
 });
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { TrafficLightState, TrafficLightUI };
+}
