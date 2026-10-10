@@ -3,7 +3,7 @@
 This document outlines the detailed technical specifications and execution steps for **Phase 4** of the Multi-Agent Software Factory. Phase 4 closes the loop on the software lifecycle by generating high-level black-box software tests (E2E), finalizing the bidirectional traceability matrix, and deploying an automated Traceability Engine to strictly validate the integrity of the entire factory output before final Orchestrator approval.
 
 ## Current Status
-- [ ] **Develop Software Test Agent Definition (`agents/sw_test_agent.md`)**
+- [x] **Develop Software Test Agent Definition (`agents/sw_test_agent.md`)**
 - [ ] **Develop Traceability Validator Script (`scripts/traceability_validator.py`)**
 - [ ] **Develop Report Generator Script (`scripts/report_generator.py`)**
 - [ ] **Update Orchestrator Pipeline for Traceability Enforcement**
