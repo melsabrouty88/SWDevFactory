@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import json
 import subprocess
+import pandas as pd
 
 # Setup page configuration
 st.set_page_config(
@@ -91,9 +92,58 @@ with tab_job_control:
             st.info("The Orchestrator will automatically pull the highest priority open ticket on this schedule.")
 
 with tab_traceability:
-    st.header("Bidirectional Traceability Matrix")
-    st.write("*(Component scaffolding - Implementation coming in Step 3)*")
+    st.header("🔗 Bidirectional Traceability Matrix")
+    st.markdown("Live view of the requirements and their traceability through architecture, code, and testing.")
+    
+    req_csv_path = os.path.join(settings['base_dir'], settings['paths']['requirements_csv'])
+    trace_csv_path = os.path.join(settings['base_dir'], settings['paths']['traceability_csv'])
+    
+    try:
+        if os.path.exists(req_csv_path) and os.path.exists(trace_csv_path):
+            df_req = pd.read_csv(req_csv_path)
+            df_trace = pd.read_csv(trace_csv_path)
+            
+            # Merge for a comprehensive view
+            df_merged = pd.merge(df_req, df_trace, on="req_id", how="left")
+            
+            # Display interactive dataframe
+            st.dataframe(
+                df_merged[['req_id', 'title', 'status', 'architecture_doc_ref', 'source_code_files', 'verification_status']], 
+                use_container_width=True
+            )
+            
+            # Traceability Engine Validator Trigger
+            st.subheader("Traceability Engine Validator")
+            st.markdown("Run the strict validation script to mathematically prove all references exist on disk.")
+            if st.button("🔍 Run Traceability Validator"):
+                val_script = os.path.join(settings['base_dir'], 'scripts', 'traceability_validator.py')
+                val_result = subprocess.run(['python3', val_script], capture_output=True, text=True)
+                if val_result.returncode == 0:
+                    st.success("Traceability Matrix is 100% Valid!")
+                else:
+                    st.error("Traceability Matrix Validation Failed.")
+                    st.code(val_result.stderr)
+        else:
+            st.warning("CSV Data stores not found. Run the factory to generate data.")
+    except Exception as e:
+        st.error(f"Error loading CSV data: {str(e)}")
 
 with tab_logs:
-    st.header("Agent State & Log Monitor")
-    st.write("*(Component scaffolding - Implementation coming in Step 3)*")
+    st.header("📋 Agent State & Log Monitor")
+    st.markdown("Monitor the raw execution logs, GitHub sync fallbacks, and agent activity.")
+    
+    log_file_path = os.path.join(settings['base_dir'], 'logs', 'github_sync_errors.log')
+    
+    if os.path.exists(log_file_path):
+        with open(log_file_path, 'r') as f:
+            logs = f.read()
+        if logs.strip():
+            st.error("GitHub Sync Fallbacks Detected!")
+            st.code(logs)
+            if st.button("Clear Error Logs"):
+                open(log_file_path, 'w').close()
+                st.rerun()
+        else:
+            st.success("No GitHub sync errors detected. All systems healthy.")
+    else:
+        st.info("Log file not found. System hasn't generated errors yet.")
