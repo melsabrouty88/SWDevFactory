@@ -1,0 +1,14 @@
+{
+  "workspace_root": "./workspace",
+  "paths": {
+    "requirements_csv": "./workspace/Requirements/requirements.csv",
+    "traceability_csv": "./workspace/Requirements/traceability_matrix.csv",
+    "architecture_dir": "./workspace/Architecture",
+    "code_dir": "./workspace/Code",
+    "test_dir": "./workspace/Test"
+  },
+  "schema_paths": {
+    "requirements_schema": "./config/ProjConfig/schemas/requirements_schema.json",
+    "traceability_schema": "./config/ProjConfig/schemas/traceability_schema.json"
+  }
+}

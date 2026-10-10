@@ -24,7 +24,7 @@ class TestPhase1(unittest.TestCase):
         self.assertTrue(os.path.exists(env_path), ".env.example does not exist")
 
     def test_requirements_schema_exists_and_valid(self):
-        schema_path = os.path.join(self.base_dir, 'data', 'schemas', 'requirements_schema.json')
+        schema_path = os.path.join(self.base_dir, 'config', 'ProjConfig', 'schemas', 'requirements_schema.json')
         self.assertTrue(os.path.exists(schema_path), "requirements_schema.json does not exist")
         with open(schema_path, 'r') as f:
             schema = json.load(f)
@@ -36,7 +36,7 @@ class TestPhase1(unittest.TestCase):
             self.assertIn("comment", props)
 
     def test_traceability_schema_exists_and_valid(self):
-        schema_path = os.path.join(self.base_dir, 'data', 'schemas', 'traceability_schema.json')
+        schema_path = os.path.join(self.base_dir, 'config', 'ProjConfig', 'schemas', 'traceability_schema.json')
         self.assertTrue(os.path.exists(schema_path), "traceability_schema.json does not exist")
         with open(schema_path, 'r') as f:
             schema = json.load(f)
@@ -44,7 +44,7 @@ class TestPhase1(unittest.TestCase):
             self.assertIn("req_id", schema["properties"])
 
     def test_csv_files_headers(self):
-        req_csv_path = os.path.join(self.base_dir, 'data', 'requirements.csv')
+        req_csv_path = os.path.join(self.base_dir, 'workspace', 'Requirements', 'requirements.csv')
         self.assertTrue(os.path.exists(req_csv_path))
         with open(req_csv_path, 'r') as f:
             reader = csv.reader(f)
@@ -53,7 +53,7 @@ class TestPhase1(unittest.TestCase):
             self.assertIn('creation_date', headers)
             self.assertIn('comment', headers)
 
-        trace_csv_path = os.path.join(self.base_dir, 'data', 'traceability_matrix.csv')
+        trace_csv_path = os.path.join(self.base_dir, 'workspace', 'Requirements', 'traceability_matrix.csv')
         self.assertTrue(os.path.exists(trace_csv_path))
         with open(trace_csv_path, 'r') as f:
             reader = csv.reader(f)

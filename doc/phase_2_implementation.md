@@ -17,13 +17,13 @@ The Requirement Agent translates raw GitHub issue context into formal, actionabl
 *   **Target File:** `agents/requirement_agent.md`
 *   **Role:** Technical Business Analyst / Product Owner.
 *   **Tools Available:**
-    *   Excel/CSV MCP Server (to read/write `data/requirements.csv`).
+    *   Excel/CSV MCP Server (to read/write `workspace/Requirements/requirements.csv`).
     *   `ask_question` / User prompt interface (to request clarifications).
 *   **Core Responsibilities (System Prompt Logic):**
     1.  **Ambiguity Detection:** Read the raw issue context passed by the Orchestrator. Identify missing acceptance criteria, edge cases, or ambiguous language.
     2.  **Assumption Generation & GitHub Sync:** If ambiguities exist, generate logical assumptions. Share these directly with the User by commenting on the GitHub ticket (via `github_create_issue_comment`). Wait for explicit approval on the ticket. Use local fallback logs and retries if GitHub communication fails.
     3.  **Formalization:** Break down the feature into atomic requirements.
-    4.  **Data Persistence:** Use the CSV MCP tool to append new rows into `requirements.csv`, strictly adhering to the JSON schema defined in Phase 1 (generating unique `REQ-` IDs, setting Status to `Pending`, etc.).
+    4.  **Data Persistence:** Use the CSV MCP tool to append new rows into `workspace/Requirements/requirements.csv`, strictly adhering to the JSON schema defined in `config/ProjConfig` (generating unique `REQ-` IDs, setting Status to `Pending`, etc.).
 
 ---
 
@@ -34,13 +34,15 @@ The Architect Agent uses the formalized requirements to design the structural bl
 *   **Target File:** `agents/architect_agent.md`
 *   **Role:** Principal Software Architect.
 *   **Tools Available:**
-    *   Excel/CSV MCP Server (to read `requirements.csv` and write to `traceability_matrix.csv`).
+    *   Excel/CSV MCP Server (to read/write workspace CSV files).
     *   Workspace File Writer (to scaffold architecture documentation/diagrams).
+    *   GitHub MCP Server (to commit architectural diagrams directly to the repository).
 *   **Core Responsibilities (System Prompt Logic):**
-    1.  **Requirement Ingestion:** Use the CSV MCP to query `requirements.csv` for `Pending` requirements linked to the current ticket.
+    1.  **Requirement Ingestion:** Use the CSV MCP to query `workspace/Requirements/requirements.csv` for `Pending` requirements linked to the current ticket.
     2.  **Interface & Boundary Definition:** Define strict data models, API contracts, and internal system boundaries. 
     3.  **Simplicity Enforcement:** Actively avoid over-engineering. Enforce simple design choices, utilizing standard libraries where possible.
-    4.  **Traceability Initialization:** Append new rows to `traceability_matrix.csv`, linking the `req_id` to the newly generated `architecture_doc_ref`.
+    4.  **Architecture Committing & Code Setup:** Commit the generated architecture docs to GitHub via MCP. Scaffold the directory layout in `workspace/Code/` based on the design.
+    5.  **Traceability Initialization:** Append new rows to `workspace/Requirements/traceability_matrix.csv`, linking the `req_id` to the newly generated `architecture_doc_ref`.
 
 ---
 

@@ -54,8 +54,9 @@ Our ecosystem consists of specialized agents defined in agnostic Markdown format
 6. **SW Test Agent**: Develops high-level, black-box software test cases mapped directly back to the formalized requirements.
 
 ## Core Features
-- **MCP Integration**: Relies on standardized remote Model Context Protocol (MCP) servers—like the official `@modelcontextprotocol/server-github`—to interact natively with GitHub (reading issues, writing PRs), avoiding the need to build custom integrations.
-- **CSV Data Store**: All requirements and traceability matrices are strictly documented, versioned, and stored in structured CSV formats.
+- **MCP Integration**: Relies on standardized remote Model Context Protocol (MCP) servers—like the official `@modelcontextprotocol/server-github`—to interact natively with GitHub (reading issues, writing PRs, committing architecture docs), avoiding the need to build custom integrations.
+- **Configurable Workspace**: All subagents maintain their work products (Requirements, Architecture, Code, Tests) in a dedicated, configurable `workspace/` folder defined by `config/ProjConfig/settings.json`.
+- **CSV Data Store**: All requirements and traceability matrices are strictly documented, versioned, and stored in structured CSV formats within the workspace.
 - **Traceability Engine**: Enforces strict bidirectional traceability linking Requirements ↔ Architecture ↔ Code ↔ Tests. 
 - **Execution Logging & Fallbacks**: The Orchestrator strictly logs all operations, failures, and fallbacks into structured execution logs to prevent silent failures and provide transparent summaries.
 - **Dashboard Interface**: A visual UI to monitor agent execution states, configure scheduling for the Orchestrator, manually trigger ticket processing, track the end-to-end traceability matrix, and visualize execution logs (including errors and warning summaries with prompts to check detailed logs).

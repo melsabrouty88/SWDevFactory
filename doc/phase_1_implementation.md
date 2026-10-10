@@ -17,7 +17,7 @@ To ensure strict formatting for our AI workers and traceability engine, we will 
 
 ### 1.1 `requirements.csv`
 This file will store formalized requirements derived from GitHub tickets.
-*   **Target File:** `data/schemas/requirements_schema.json`
+*   **Target File:** `config/ProjConfig/schemas/requirements_schema.json`
 *   **Columns Required:**
     *   `req_id` (String): Generated requirement ID (unique identifier, e.g., `REQ-001`).
     *   `github_issue_id` (Integer): The parent ticket ID this requirement originated from.
@@ -32,7 +32,7 @@ This file will store formalized requirements derived from GitHub tickets.
 
 ### 1.2 `traceability_matrix.csv`
 This file maps the lifecycle of a requirement down to the exact code files and test cases.
-*   **Target File:** `data/schemas/traceability_schema.json`
+*   **Target File:** `config/ProjConfig/schemas/traceability_schema.json`
 *   **Columns Required:**
     *   `req_id` (String): Foreign key to `requirements.csv`.
     *   `architecture_doc_ref` (String): Link to the design section/diagram.

@@ -32,9 +32,9 @@ Break down the validated issue into one or more atomic requirements. Each requir
 *   The `status` set to "Pending".
 
 ## 4. Data Persistence (CSV MCP)
-*   You must persist the formalized requirements into the central data store.
-*   Use the connected **Excel/CSV MCP Server** tools to target `data/requirements.csv`.
-*   Ensure the data you append strictly conforms to the schema defined in `data/schemas/requirements_schema.json` (Including `creation_date`, `last_modification_date`, and `comment` fields).
+*   You must persist the formalized requirements into the configured workspace.
+*   Check `config/ProjConfig/settings.json` for paths, then use the connected **Excel/CSV MCP Server** tools to target the configured requirements file (e.g., `workspace/Requirements/requirements.csv`).
+*   Ensure the data you append strictly conforms to the schema defined in `config/ProjConfig/schemas/requirements_schema.json` (Including `creation_date`, `last_modification_date`, and `comment` fields).
 *   **Error Handling**: If the CSV append operation fails, analyze the error, fix formatting issues, and retry. Do not silently fail.
 
 ## 5. Handoff

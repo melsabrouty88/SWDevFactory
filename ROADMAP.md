@@ -19,11 +19,19 @@ This roadmap breaks down the development of the Multi-Agent Software Factory int
 │   ├── mcp_servers.json
 │   └── .env.example
 ├── requirements.txt
-├── data/
-│   ├── schemas/
-│   │   ├── requirements_schema.json
-│   │   └── traceability_schema.json
-│   └── initial_traceability.csv
+├── config/
+│   └── ProjConfig/
+│       ├── settings.json
+│       └── schemas/
+│           ├── requirements_schema.json
+│           └── traceability_schema.json
+├── workspace/
+│   ├── Requirements/
+│   │   ├── requirements.csv
+│   │   └── traceability_matrix.csv
+│   ├── Architecture/
+│   ├── Code/
+│   └── Test/
 ├── agents/
 │   └── orchestrator_agent.md
 └── triggers/
@@ -65,8 +73,8 @@ This roadmap breaks down the development of the Multi-Agent Software Factory int
 ├── agents/
 │   ├── coding_agent.md
 │   └── unit_test_agent.md
-└── src/
-    └── (generated application code will live here)
+└── workspace/Code/
+    └── (generated application code structured by Architect Agent)
 ```
 
 ## Phase 4: System Verification & Traceability Engine
@@ -85,7 +93,7 @@ This roadmap breaks down the development of the Multi-Agent Software Factory int
 ├── scripts/
 │   ├── traceability_validator.py
 │   └── report_generator.py
-└── tests/
+└── workspace/Test/
     └── e2e/
 ```
 
