@@ -103,7 +103,9 @@ with tab_job_control:
                     else:
                         st.error(f"Factory failed for ticket #{ticket_id}.")
                         with st.expander("View Error Log"):
-                            st.code(result.stderr)
+                            # The trigger script prints its execution summary to stdout even on failure
+                            full_error = f"--- STDOUT ---\n{result.stdout}\n\n--- STDERR ---\n{result.stderr}"
+                            st.code(full_error.strip())
                 except Exception as e:
                     st.error(f"Execution failed: {str(e)}")
             else:
