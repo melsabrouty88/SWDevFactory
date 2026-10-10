@@ -31,6 +31,8 @@ fi
 # 5. Install dashboard specific dependencies
 if [ -f "dashboard/requirements.txt" ]; then
     echo "-> Installing Dashboard UI requirements (Streamlit, Pandas)..."
+    export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+    pip install --upgrade protobuf
     pip install -r dashboard/requirements.txt
 else
     echo "-> No dashboard/requirements.txt found, skipping."
