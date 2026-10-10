@@ -1,5 +1,5 @@
 req_id,architecture_doc_ref,source_code_files,unit_test_files,sw_test_case_id,verification_status
 REQ-1-01,workspace/Architecture/traffic_light_architecture.md,"workspace/Code/index.html,workspace/Code/styles.css,workspace/Code/app.js",workspace/Tests/Unit/app.test.js,workspace/Tests/E2E/traffic_light.cy.js,Pass
 REQ-1-02,workspace/Architecture/traffic_light_architecture.md,"workspace/Code/index.html,workspace/Code/styles.css,workspace/Code/app.js",workspace/Tests/Unit/app.test.js,workspace/Tests/E2E/traffic_light.cy.js,Pass
-REQ-2-01,workspace/Architecture/traffic_light_timer_architecture.md,"workspace/Code/index.html,workspace/Code/styles.css,workspace/Code/app.js",workspace/Tests/Unit/timer.test.js,,
-REQ-2-02,workspace/Architecture/traffic_light_timer_architecture.md,"workspace/Code/index.html,workspace/Code/styles.css,workspace/Code/app.js",workspace/Tests/Unit/timer.test.js,,
+REQ-2-01,workspace/Architecture/traffic_light_timer_architecture.md,"workspace/Code/index.html,workspace/Code/styles.css,workspace/Code/app.js",workspace/Tests/Unit/timer.test.js,workspace/Tests/E2E/traffic_light_timer.cy.js,Pass
+REQ-2-02,workspace/Architecture/traffic_light_timer_architecture.md,"workspace/Code/index.html,workspace/Code/styles.css,workspace/Code/app.js",workspace/Tests/Unit/timer.test.js,workspace/Tests/E2E/traffic_light_timer.cy.js,Pass
