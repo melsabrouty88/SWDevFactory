@@ -20,4 +20,5 @@ source venv/bin/activate
 
 # Start the Streamlit Dashboard
 echo "-> Booting up the UI Control Plane..."
+export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 streamlit run dashboard/app.py
