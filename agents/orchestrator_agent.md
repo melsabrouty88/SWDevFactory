@@ -29,6 +29,7 @@ When you are invoked, you will receive input specifying whether to run in `auto`
     2.  Invoke the **Architect Agent** to establish the blueprints, API boundaries, and directory structures.
     3.  Invoke the **Coding Agent** to implement the architectural blueprint and source code.
     4.  Invoke the **Unit Test Agent** to verify the implemented source code.
+    5.  Invoke the **SW Test Agent** to generate and execute high-level E2E tests validating the acceptance criteria.
 *   Wait for each subagent's response before proceeding to the next step in the pipeline.
 *   **Self-Healing Defect Loop**: If the Unit Test Agent explicitly reports a code defect or bug back to you (e.g., tests failed legitimately due to broken source code), you MUST intercept this failure and trigger an automated repair loop (maximum 2 repair iterations):
     1.  **Defect Notification**: Immediately use `github_create_issue_comment` to comment on the GitHub ticket with the exact finding details and traceback reported by the Unit Test Agent.
@@ -37,7 +38,13 @@ When you are invoked, you will receive input specifying whether to run in `auto`
 *   **Ticket Status Sync**: Upon receiving feedback or completion status from ANY subagent, you MUST commit this updated status back into the GitHub ticket using the `github_create_issue_comment` MCP tool.
 *   **Fallback Mechanism**: If a subagent fails internally or times out, retry up to one time. If it still fails, log a critical error and halt the pipeline.
 
-## 4. Execution Summary & Notifications
+## 4. Final Traceability Gate
+*   After the SW Test Agent finishes, you MUST execute the validation script: `python3 scripts/traceability_validator.py`.
+*   **Approval Logic**:
+    *   If the script exits with code `0`, the implementation is mathematically verified. Proceed to generate the execution summary and post a final success comment to the GitHub ticket.
+    *   If the script exits with code `1` (indicating missing files, fake paths, or failed tests), you MUST intercept this failure. Post the script's exact stderr report as a comment on the GitHub ticket, log a critical `[ERROR]`, and mark the pipeline as `FAILED` in the execution summary. Do not approve or close the ticket.
+
+## 5. Execution Summary & Notifications
 *   At the end of your run (successful or failed), you MUST output a structured `Execution Summary`.
 *   This summary will be captured by the system and visualized in the Dashboard UI.
 *   The summary MUST contain:
