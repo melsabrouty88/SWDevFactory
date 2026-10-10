@@ -1,0 +1,6 @@
+timestamp,ticket_id,subagent_name,prompt_tokens,completion_tokens,estimated_cost
+2026-10-10T20:32:39.499697+00:00,2,RequirementAgent,1850,420,0.0065
+2026-10-10T20:37:04.801395+00:00,2,ArchitectAgent,6200,2400,0.0546
+2026-10-10T20:42:54.567988+00:00,2,CodingAgent,5800,2200,0.045
+2026-10-10T20:48:58.238Z,2,UnitTestAgent,6500,1800,0.0465
+2026-10-10T20:54:58.687640+00:00,2,SWTestAgent,6800,1900,0.0489
