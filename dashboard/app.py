@@ -35,11 +35,13 @@ if not settings:
     st.stop()
 
 # Define core views using Streamlit Tabs
+# tab_home, tab_job_control, tab_traceability, tab_analytics, tab_logs = st.tabs([
 tab_home, tab_job_control, tab_traceability, tab_analytics = st.tabs([
     "🏠 Home", 
     "⚙️ Job Control", 
     "🔗 Traceability Matrix", 
     "💰 Token Analytics"
+    # "📋 System Logs"
 ])
 
 with tab_home:
@@ -195,3 +197,25 @@ with tab_analytics:
             st.error(f"Error parsing token usage logs: {str(e)}")
     else:
         st.info("No token usage data found yet. Trigger a workflow to generate token logs.")
+
+# --- Hidden System Logs Tab ---
+# (Temporarily commented out for maintenance)
+# with tab_logs:
+#     st.header("📋 Agent State & Log Monitor")
+#     st.markdown("Monitor the raw execution logs, GitHub sync fallbacks, and agent activity.")
+#     
+#     log_file_path = os.path.join(settings['base_dir'], 'logs', 'github_sync_errors.log')
+#     
+#     if os.path.exists(log_file_path):
+#         with open(log_file_path, 'r') as f:
+#             logs = f.read()
+#         if logs.strip():
+#             st.error("GitHub Sync Fallbacks Detected!")
+#             st.code(logs)
+#             if st.button("Clear Error Logs"):
+#                 open(log_file_path, 'w').close()
+#                 st.rerun()
+#         else:
+#             st.success("No GitHub sync errors detected. All systems healthy.")
+#     else:
+#         st.info("Log file not found. System hasn't generated errors yet.")
