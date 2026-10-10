@@ -3,7 +3,7 @@
 This document outlines the detailed technical specifications and execution steps for **Phase 3** of the Multi-Agent Software Factory. Phase 3 focuses on translating the Architect Agent's blueprints and the Requirement Agent's formalized specifications into production code and automated unit tests, while maintaining strict bidirectional traceability and GitHub synchronization.
 
 ## Current Status
-- [ ] **Develop Coding Agent Definition (`agents/coding_agent.md`)**
+- [x] **Develop Coding Agent Definition (`agents/coding_agent.md`)**
 - [ ] **Develop Unit Test Agent Definition (`agents/unit_test_agent.md`)**
 - [ ] **Update Orchestrator Pipeline for Phase 3 Delegation & Self-Healing Loop**
 - [ ] **Automate Architecture-to-Code & Unit-Test Traceability Integration**
