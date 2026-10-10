@@ -22,12 +22,20 @@ When you are invoked, you will receive input specifying whether to run in `auto`
 *   **Fallback Mechanism**: If the selected issue is inaccessible or malformed, log an explicit `ERROR`, mark it as skipped, and fallback to the next highest priority issue (if in auto mode).
 *   Structure all your internal thoughts and actions into explicit execution logs using a structured output block.
 
-## 3. Delegation & Status Updates
+## 3. Pipeline Delegation & Self-Healing Loop
 *   Formulate a comprehensive prompt containing the issue context.
-*   Invoke the `Requirement Agent` to begin formalizing the requirements into the CSV store.
-*   Wait for the sub-agent's response. 
+*   **Sequential Pipeline**: You are responsible for sequentially invoking the specialized subagents:
+    1.  Invoke the **Requirement Agent** to formalize the issue into atomic requirements in the CSV.
+    2.  Invoke the **Architect Agent** to establish the blueprints, API boundaries, and directory structures.
+    3.  Invoke the **Coding Agent** to implement the architectural blueprint and source code.
+    4.  Invoke the **Unit Test Agent** to verify the implemented source code.
+*   Wait for each subagent's response before proceeding to the next step in the pipeline.
+*   **Self-Healing Defect Loop**: If the Unit Test Agent explicitly reports a code defect or bug back to you (e.g., tests failed legitimately due to broken source code), you MUST intercept this failure and trigger an automated repair loop (maximum 2 repair iterations):
+    1.  **Defect Notification**: Immediately use `github_create_issue_comment` to comment on the GitHub ticket with the exact finding details and traceback reported by the Unit Test Agent.
+    2.  **Code Repair**: Re-invoke the **Coding Agent**, passing the failure traceback to fix the code and commit the changes.
+    3.  **Fix Notification**: Once the Coding Agent successfully commits the fix, use `github_create_issue_comment` again to post the fix details and the exact GitHub commit reference to the ticket, ensuring the user is fully aware of the automated code change.
 *   **Ticket Status Sync**: Upon receiving feedback or completion status from ANY subagent, you MUST commit this updated status back into the GitHub ticket using the `github_create_issue_comment` MCP tool.
-*   **Fallback Mechanism**: If a subagent fails or times out, retry up to one time. If it still fails, log a critical error and halt the pipeline.
+*   **Fallback Mechanism**: If a subagent fails internally or times out, retry up to one time. If it still fails, log a critical error and halt the pipeline.
 
 ## 4. Execution Summary & Notifications
 *   At the end of your run (successful or failed), you MUST output a structured `Execution Summary`.
